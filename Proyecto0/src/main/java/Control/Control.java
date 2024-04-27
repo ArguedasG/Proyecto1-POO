@@ -11,7 +11,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Control {
     private static Control instancia;
     private LocalDate fecha;
+    private Map<String, Cliente> clientes;
+    private Map<Integer, Cita> citas;
+    private Map<String, Servicio> servicios;
     private Map<DayOfWeek, Dia> horario;
+    private Queue<Cita> listaEspera;
     
     private Control() {
         this.fecha = LocalDate.now();
@@ -79,6 +83,7 @@ public class Control {
     }
     
     public Map<LocalDateTime, String> verCalendarioCitas(String opcion, LocalDate inicio){
+        
         return new HashMap();
     }
     
@@ -127,7 +132,7 @@ public class Control {
     }
     
     //
-    // Lista Espera
+    // Horario
     //
     
     public void establecerHorario(String diaSemana, LocalTime inicio, LocalTime cierre) {
