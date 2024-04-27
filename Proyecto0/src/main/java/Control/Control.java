@@ -19,7 +19,11 @@ public class Control {
     
     private Control() {
         this.fecha = LocalDate.now();
+        this.clientes = new HashMap();
+        this.citas = new HashMap();
+        this.servicios = new HashMap();
         this.inicializarHorario();
+        this.listaEspera = new ConcurrentLinkedQueue();
     }
     
     public Control getInstance(){
@@ -83,7 +87,7 @@ public class Control {
     }
     
     public Map<LocalDateTime, String> verCalendarioCitas(String opcion, LocalDate inicio){
-        
+        Map<LocalDateTime, String> calendario = new HashMap();
         return new HashMap();
     }
     
