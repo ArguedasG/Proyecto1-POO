@@ -40,25 +40,50 @@ public class Control {
     //
     
     public String crearCliente(String nombre, String email, String telefono) {
-        return new String();
+        if (clientes.containsKey(telefono)) {
+            return "Cliente ya existe";
+        }
+
+        Cliente nuevoCliente = new Cliente(nombre, email, telefono);
+        clientes.put(telefono, nuevoCliente);
+        return "Cliente creado exitosamente";
     }
-    
-    public void modificarCliente(String nombre, String email, String telefono) {
-        
+
+    public String modificarCliente(String nombre, String email, String telefono) {
+        Cliente cliente = clientes.get(telefono);
+        if (cliente == null) {
+            return "Cliente no encontrado";
+        }
+
+        cliente.setNombre(nombre);
+        cliente.setEmail(email);
+        return "Cliente modificado exitosamente";
     }
-    
-    public void borrarCliente(String telefono) {
-        
+
+    public String borrarCliente(String telefono) {
+        if (clientes.remove(telefono) != null) {
+            return "Cliente borrado exitosamente";
+        } else {
+            return "Cliente no encontrado";
+        }
     }
-    
+
     public String consultarCliente(String telefono) {
-        return new String();
+        Cliente cliente = clientes.get(telefono);
+        if (cliente == null) {
+            return "Cliente no encontrado";
+        }
+
+        return cliente.toString();
     }
-    
+
     public Map<String, String> listaClientes() {
-        return new HashMap();
+        Map<String, String> lista = new HashMap<>();
+        for (Map.Entry<String, Cliente> entry : clientes.entrySet()) {
+            lista.put(entry.getKey(), entry.getValue().toString());
+        }
+        return lista;
     }
-    
     //
     // Cita
     //
