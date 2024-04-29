@@ -2,6 +2,7 @@ package Control;
 
 import Model.*;
 import java.time.*;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
@@ -26,7 +27,7 @@ public class Control {
         this.listaEspera = new ConcurrentLinkedQueue();
     }
     
-    public Control getInstance(){
+    public static Control getInstance(){
          if (Control.instancia == null) {
              Control.instancia = new Control();
          }
@@ -86,9 +87,38 @@ public class Control {
         return new HashMap();
     }
     
-    public Map<LocalDateTime, String> verCalendarioCitas(String opcion, LocalDate inicio){
+    public Map<LocalDateTime, String> verCalendarioCitas(String opcion, LocalDate inicio) {
         Map<LocalDateTime, String> calendario = new HashMap();
-        return new HashMap();
+        ChronoLocalDateTime fechaInit = ChronoLocalDateTime.from(inicio.atStartOfDay());
+        ChronoLocalDateTime fechaFin;
+        
+        switch (opcion) {
+            case "Week" -> {
+                fechaFin = ChronoLocalDateTime.from(inicio.plusDays(7).atStartOfDay());
+                break;
+            }
+            case "Month" -> {
+                fechaFin = ChronoLocalDateTime.from(inicio.plusMonths(1).atStartOfDay());
+                break;
+            }
+            default -> {
+                fechaFin = ChronoLocalDateTime.from(LocalDateTime.now());
+                break;
+            }
+        }
+        
+        for (Map.Entry<Integer, Cita> entry : this.citas.entrySet()) {
+            Cita cita = entry.getValue();
+            LocalDateTime fecha = cita.getFecha();
+            
+            if (fecha.isAfter(fechaInit) & fecha.isBefore(fechaFin)) {
+                calendario.put(fecha, cita.toString());
+            }
+            
+        }
+        
+        return calendario;
+        
     }
     
     //
@@ -165,6 +195,7 @@ public class Control {
     private void inicializarHorario() {
         LocalTime inicio = LocalTime.of(6, 0);
         LocalTime cierre = LocalTime.of(18, 0);
+        this.horario = new HashMap();
        
         for (DayOfWeek diaSemana : DayOfWeek.values()) {
             Dia dia = new Dia(diaSemana, inicio, cierre);
