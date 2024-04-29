@@ -16,7 +16,7 @@ public class Control {
     private Map<Integer, Cita> citas;
     private Map<String, Servicio> servicios;
     private Map<DayOfWeek, Dia> horario;
-    private Queue<Cita> listaEspera;
+    private Queue<Cliente> listaEspera;
     
     private Control() {
         this.fecha = LocalDate.now();
@@ -283,16 +283,20 @@ public class Control {
     // Lista Espera
     //
     
-    public void crearListaEspera() {
-        
+    public ConcurrentLinkedQueue<Cliente> mostrarListaEspera() {
+        return (ConcurrentLinkedQueue<Cliente>) this.listaEspera;
     }
     
-    public Queue<String> modificarListaEspera() {
-        return new ConcurrentLinkedQueue();
+    public void agregarListaEspera(String telefono) {
+        for (Map.Entry<String, Cliente> cliente : clientes.entrySet()){
+            if (cliente.getValue().getTelefono().equals(telefono)){
+                listaEspera.add(cliente.getValue());
+            }
+        }
     }
     
-    public void borrarListaEspera() {
-        
+    public void borrarListaEspera(Cliente cliente) {
+        listaEspera.remove(cliente);
     }
     
     public void enviarNotificacion() {
