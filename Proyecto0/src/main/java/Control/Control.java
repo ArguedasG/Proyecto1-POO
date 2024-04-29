@@ -63,24 +63,98 @@ public class Control {
     // Cita
     //
     
-    public void crearCita(LocalDate fecha, LocalTime hora, String telefonoCliente, String tipoElegido) {
-        
+    public void crearCita(LocalDate fecha, LocalTime hora, String telefonoCliente, String tipoElegido) throws Exception {
+        DayOfWeek dia = fecha.getDayOfWeek();
+        if (validarDiaYHora(dia, hora) == 1){
+            for (Map.Entry<String, Cliente> clientesCita : clientes.entrySet()){
+                if (clientesCita.getValue().getTelefono().equals(telefonoCliente)){
+                    for (Map.Entry<String, Servicio> serviciosCita : servicios.entrySet()){
+                        if (serviciosCita.getKey().equals(tipoElegido)){
+                            LocalDateTime fechaYHora = fecha.atTime(hora);
+                            Cita cita = new Cita(fechaYHora, clientesCita.getValue(), serviciosCita.getValue());
+                            citas.put(cita.getNumero(), cita);
+                            break;
+                        }
+                    }
+                    throw new Exception("El servicio no existe");
+                
+                }
+            }
+            throw new Exception("El teléfono que proveyó no coincide con ningúno de los teléfonos de los clientes");
+        }
     }
     
-    public void modificarCita(int numero, LocalDate fecha, LocalTime hora, String tipoElegido) {
-        
+    private int validarDiaYHora (DayOfWeek dia, LocalTime hora)throws Exception{
+        int aprobado = 1;
+        for (Map.Entry<DayOfWeek, Dia> dias : horario.entrySet()){
+            if (dias.getKey().equals(dia)){
+                if (hora.isAfter(dias.getValue().getHoraInicio()) && hora.isBefore(dias.getValue().getHoraCierre())){
+                    return aprobado;
+                }
+                else{
+                    aprobado=0;
+                    throw new Exception("La hora no está dentro del horario de atención de ese día");
+                }
+            }
+        }
+        aprobado=0;
+        throw new Exception("El día no está dentro del horario de atencíon");
     }
     
-    public void borrarCita(int numero) {
-        
+    public int mostrarCitaExistente(int numero, LocalDate fecha, LocalTime hora, Servicio tipoElegido)throws Exception {
+        DayOfWeek dia = fecha.getDayOfWeek();
+        for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
+            if (cita.getKey().equals(numero)){
+                System.out.println("Aquí está la información de la cita: ");
+                Cita citaAModificar = cita.getValue();
+                citaAModificar.toString();
+                if (validarDiaYHora(dia, hora) == 1){
+                    for (Map.Entry<String, Servicio> servicio : servicios.entrySet()){
+                        if (servicio.getValue().equals(tipoElegido)){
+                            citaAModificar.setFecha(fecha);
+                            citaAModificar.setHora(hora.getHour());
+                            citaAModificar.setServicio(tipoElegido);
+                            return 1;
+                        }
+                    }
+                    throw new Exception("El servicio no existe dentro del sistema");
+                }
+            }
+        }
+        throw new Exception("El número de cita no coincidee con ninguna cita existente");
+    }
+
+    public int borrarCita(int numero) throws Exception {
+        for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
+            if (cita.getKey().equals(numero)){
+                Cita citaAEliminar = cita.getValue();
+                citas.remove(citaAEliminar);
+                //eliminar del calendario
+                return 1;
+            }
+        }
+        throw new Exception("El número de cita no coincidee con ninguna cita existente");
     }
     
-    public String consultarCita(int numero) {
-        return new String();
+    public String consultarCita(int numero)throws Exception {
+        for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
+            if (cita.getKey().equals(numero)){
+                Cita citaAMostrar = cita.getValue();
+                return citaAMostrar.toString();
+            }
+        }
+        throw new Exception("El número de cita no coincidee con ninguna cita existente");
     }
     
-    public void confirmarCita(int numero) {
-        
+    public int confirmarCita(int numero) throws Exception {
+        for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
+            if (cita.getKey().equals(numero)){
+                Cita citaAConfirmar = cita.getValue();
+                citaAConfirmar.setEstado(true);
+                return 1;
+            }
+        }
+        throw new Exception("El número de cita no coincidee con ninguna cita existente");
     }
     
     public Map<Integer, String> listaCitas() {
@@ -125,20 +199,55 @@ public class Control {
     // Servicio
     //
     
-    public int crearServicio(String tipo, String descripcion) {
-        return 0;
+    public void crearServicio(String tipo, String descripcion) {
+        System.out.println("Esta es la lista de servicios");
+        servicios.toString();
+        Servicio servicio = new Servicio(tipo, descripcion);
+        servicios.put(tipo, servicio);
     }
     
-    public void modificarServicio(String tipo, String descripcion) {
-        
+    public int modificarServicio(String tipo, String descripcion)throws Exception {
+        System.out.println("Esta es la lista de servicios");
+        servicios.toString();
+        for (Map.Entry<String, Servicio> servicio : servicios.entrySet()){
+            if (servicio.getKey().equals(tipo)){
+                Servicio servicioAModificar = servicio.getValue();
+                servicioAModificar.setTipo(tipo);
+                servicioAModificar.setDescripcion(descripcion);
+                return 1;
+            }
+        }
+        throw new Exception ("El tipo de servicio elegido no existe");
     }
     
-    public void borrarServicio(String tipo) {
-        
+    public int borrarServicio(String tipo)throws Exception {
+        System.out.println("Esta es la lista de servicios");
+        servicios.toString();
+        for (Map.Entry<String, Servicio> servicio : servicios.entrySet()){
+            if (servicio.getKey().equals(tipo)){
+                for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
+                    if (cita.getValue().getServicio().getTipo().equals(tipo)){
+                        throw new Exception ("El tipo de servicio elegido está siendo utilizado por una cita");
+                    }
+                }
+                Servicio servicioABorrar = servicio.getValue();
+                servicios.remove(servicioABorrar);
+                return 1;
+            }
+        }
+        throw new Exception ("El tipo de servicio elegido no existe");
     }
     
-    public String consultarServicio(String tipo) {
-        return new String();
+    public String consultarServicio(String tipo)throws Exception {
+        System.out.println("Esta es la lista de servicios");
+        servicios.toString();
+        for (Map.Entry<String, Servicio> servicio : servicios.entrySet()){
+            if (servicio.getKey().equals(tipo)){
+                Servicio servicioAMostrar = servicio.getValue();
+                return servicioAMostrar.toString();
+            }
+        }
+        throw new Exception ("El tipo de servicio elegido no existe");
     }
     
     public Map<String, String> listaServicio() {

@@ -1,6 +1,7 @@
 package Model;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -57,8 +58,10 @@ public class Cita {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
+    public void setFecha(LocalDate fecha) {
+        this.fecha.withYear(fecha.getYear());
+        this.fecha.withMonth(fecha.getMonthValue());
+        this.fecha.withDayOfMonth(fecha.getDayOfMonth());
     }
     
     public boolean isEstado() {
@@ -66,7 +69,8 @@ public class Cita {
     }
     
     public void setEstado(boolean estado) {
-        this.estado = estado;
+        this.estado = true
+                ;
     }
     
     public DayOfWeek getDia(){
