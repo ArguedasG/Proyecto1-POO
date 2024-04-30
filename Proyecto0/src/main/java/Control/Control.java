@@ -1,15 +1,13 @@
 package Control;
 
 import Model.*;
+import java.io.*;
 import java.time.*;
 import java.time.chrono.ChronoLocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class Control {
+public class Control implements Serializable {
     private static Control instancia;
     private LocalDate fecha;
     private Map<String, Cliente> clientes;
@@ -231,52 +229,53 @@ public class Control {
         servicios.put(tipo, servicio);
     }
     
-    public int modificarServicio(String tipo, String descripcion)throws Exception {
+    public void modificarServicio(String tipo, String descripcion)throws Exception {
         System.out.println("Esta es la lista de servicios");
         servicios.toString();
-        for (Map.Entry<String, Servicio> servicio : servicios.entrySet()){
-            if (servicio.getKey().equals(tipo)){
-                Servicio servicioAModificar = servicio.getValue();
-                servicioAModificar.setTipo(tipo);
-                servicioAModificar.setDescripcion(descripcion);
-                return 1;
-            }
+        
+        if (this.servicios.keySet().contains(tipo)){
+            Servicio servicioAModificar = this.servicios.get(tipo);
+            servicioAModificar.setTipo(tipo);
+            servicioAModificar.setDescripcion(descripcion);
+        } else {
+            throw new Exception ("El tipo de servicio elegido no existe");
         }
-        throw new Exception ("El tipo de servicio elegido no existe");
     }
     
-    public int borrarServicio(String tipo)throws Exception {
+    public void borrarServicio(String tipo)throws Exception {
         System.out.println("Esta es la lista de servicios");
         servicios.toString();
-        for (Map.Entry<String, Servicio> servicio : servicios.entrySet()){
-            if (servicio.getKey().equals(tipo)){
-                for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
-                    if (cita.getValue().getServicio().getTipo().equals(tipo)){
-                        throw new Exception ("El tipo de servicio elegido está siendo utilizado por una cita");
-                    }
+        
+        if (this.servicios.keySet().contains(tipo)){
+            for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
+                if (cita.getValue().getServicio().getTipo().equals(tipo)){
+                    throw new Exception ("El tipo de servicio elegido está siendo utilizado por una cita");
                 }
-                Servicio servicioABorrar = servicio.getValue();
-                servicios.remove(servicioABorrar);
-                return 1;
             }
+            
+            servicios.remove(tipo);
+        } else {
+            throw new Exception ("El tipo de servicio elegido no existe");
         }
-        throw new Exception ("El tipo de servicio elegido no existe");
     }
     
     public String consultarServicio(String tipo)throws Exception {
         System.out.println("Esta es la lista de servicios");
         servicios.toString();
-        for (Map.Entry<String, Servicio> servicio : servicios.entrySet()){
-            if (servicio.getKey().equals(tipo)){
-                Servicio servicioAMostrar = servicio.getValue();
-                return servicioAMostrar.toString();
-            }
+        
+        if (this.servicios.keySet().contains(tipo)){
+            Servicio servicioAMostrar = this.servicios.get(tipo);
+            return servicioAMostrar.toString();
+        } else {
+            throw new Exception ("El tipo de servicio elegido no existe");
         }
-        throw new Exception ("El tipo de servicio elegido no existe");
     }
     
-    public Map<String, String> listaServicio() {
-        return new HashMap();
+    public List<String> listaServicio() {
+        Set<String> keys = servicios.keySet();
+        List<String> serv = new ArrayList(keys);
+            
+        return serv;
     }
     
     //
@@ -339,6 +338,29 @@ public class Control {
             Dia dia = new Dia(diaSemana, inicio, cierre);
             this.horario.put(diaSemana, dia);
         }
+    }
+    
+    public void salvarDatos() throws FileNotFoundException, IOException, ClassNotFoundException {
+        String dir = System.getProperty("user.dir") + "\\src\\main";
+        File carpeta = new File(dir + "\\respaldo");
+        carpeta.mkdir();
+        FileInputStream archivo = new FileInputStream(carpeta.getAbsolutePath() + "\\Data.bin");
+        
+        ObjectInputStream objeto = new ObjectInputStream(archivo);
+        Control objetoControl = (Control) objeto.readObject();
+        objeto.close();
+        
+        Control.instancia = objetoControl;
+    }
+    
+    public void cargarDatos() throws FileNotFoundException, IOException, ClassNotFoundException {
+        String dir = System.getProperty("user.dir") + "\\src\\main";
+        File carpeta = new File(dir + "\\respaldo");
+        FileOutputStream archivo = new FileOutputStream(carpeta.getAbsolutePath() + "\\Data.bin");
+        
+        ObjectOutputStream objeto = new ObjectOutputStream(archivo);
+        objeto.writeObject(Control.instancia);
+        objeto.close();
     }
     
 }

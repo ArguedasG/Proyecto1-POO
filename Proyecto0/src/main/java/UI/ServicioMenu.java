@@ -4,6 +4,8 @@
  */
 package UI;
 
+import UI.servicio.ServicioOptionPane;
+
 /**
  *
  * @author Gabriel
@@ -74,21 +76,41 @@ public class ServicioMenu extends javax.swing.JPanel {
         InsServicioButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         InsServicioButton.setForeground(new java.awt.Color(177, 177, 177));
         InsServicioButton.setText("Ingresar Servicio");
+        InsServicioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InsServicioButtonActionPerformed(evt);
+            }
+        });
 
         DelServicioButton.setBackground(new java.awt.Color(19, 23, 25));
         DelServicioButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         DelServicioButton.setForeground(new java.awt.Color(177, 177, 177));
         DelServicioButton.setText("Borrar Servicio");
+        DelServicioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DelServicioButtonActionPerformed(evt);
+            }
+        });
 
         ModServicioButton.setBackground(new java.awt.Color(19, 23, 25));
         ModServicioButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         ModServicioButton.setForeground(new java.awt.Color(177, 177, 177));
         ModServicioButton.setText("Modificar Servicio");
+        ModServicioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModServicioButtonActionPerformed(evt);
+            }
+        });
 
         ConsServicioButton.setBackground(new java.awt.Color(19, 23, 25));
         ConsServicioButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         ConsServicioButton.setForeground(new java.awt.Color(177, 177, 177));
         ConsServicioButton.setText("Consultar Servicio");
+        ConsServicioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsServicioButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -135,6 +157,22 @@ public class ServicioMenu extends javax.swing.JPanel {
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         MainFrame.getInstance().showPage("MainMenu");
     }//GEN-LAST:event_BackButtonActionPerformed
+
+    private void InsServicioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsServicioButtonActionPerformed
+        ServicioOptionPane.insertarServicio();
+    }//GEN-LAST:event_InsServicioButtonActionPerformed
+
+    private void ModServicioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModServicioButtonActionPerformed
+        ServicioOptionPane.modificarServicio();
+    }//GEN-LAST:event_ModServicioButtonActionPerformed
+
+    private void DelServicioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DelServicioButtonActionPerformed
+        ServicioOptionPane.borrarServicio();
+    }//GEN-LAST:event_DelServicioButtonActionPerformed
+
+    private void ConsServicioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsServicioButtonActionPerformed
+        ServicioOptionPane.consultarServicio();
+    }//GEN-LAST:event_ConsServicioButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

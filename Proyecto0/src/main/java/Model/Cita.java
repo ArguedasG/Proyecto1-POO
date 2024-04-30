@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,13 +17,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 
-public class Cita {
+public class Cita implements Serializable {
     private static int consecutivo = 0;
     private int numero;
     private LocalDateTime fecha;
     private boolean estado;
-    Cliente cliente = null;
-    Servicio servicio;
+    private Cliente cliente = null;
+    private Servicio servicio;
     private String emailFrom = "barberialosmechudos@gmail.com";
     private String passwordFrom = "uhpl cxnl eqsz hyrb";
     private String emailTo;

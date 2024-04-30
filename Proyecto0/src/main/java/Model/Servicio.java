@@ -4,11 +4,13 @@
  */
 package Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author samia
  */
-public class Servicio {
+public class Servicio implements Serializable {
     String tipo;
     String descripcion;
 

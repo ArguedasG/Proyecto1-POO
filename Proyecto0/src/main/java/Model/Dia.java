@@ -1,10 +1,11 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Dia {
+public class Dia implements Serializable {
     private DayOfWeek dia;
     private LocalTime inicio;
     private LocalTime cierre;

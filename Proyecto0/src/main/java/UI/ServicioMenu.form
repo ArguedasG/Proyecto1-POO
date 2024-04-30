@@ -145,6 +145,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Ingresar Servicio"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="InsServicioButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="DelServicioButton">
       <Properties>
@@ -159,6 +162,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Borrar Servicio"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DelServicioButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ModServicioButton">
       <Properties>
@@ -173,6 +179,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Modificar Servicio"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ModServicioButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ConsServicioButton">
       <Properties>
@@ -187,6 +196,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Consultar Servicio"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ConsServicioButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
