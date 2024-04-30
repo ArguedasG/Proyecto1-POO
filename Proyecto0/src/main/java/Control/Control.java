@@ -18,7 +18,7 @@ public class Control {
     private Map<DayOfWeek, Dia> horario;
     private Queue<Cliente> listaEspera;
     
-    private Control() {
+    public Control() {
         this.fecha = LocalDate.now();
         this.clientes = new HashMap();
         this.citas = new HashMap();
@@ -40,12 +40,21 @@ public class Control {
     //
     
     public String crearCliente(String nombre, String email, String telefono) {
-        if (clientes.containsKey(telefono)) {
+        Cliente nuevoCliente = new Cliente(nombre, email, telefono);
+    
+        if (!nuevoCliente.isEmail(email)) {
+            return "Email no válido";
+        }
+    
+        if (!nuevoCliente.isTelefono(telefono)) {
+            return "Teléfono no válido";
+        }
+    
+        if (clientes.containsKey(email)) {
             return "Cliente ya existe";
         }
-
-        Cliente nuevoCliente = new Cliente(nombre, email, telefono);
-        clientes.put(telefono, nuevoCliente);
+    
+        clientes.put(email, nuevoCliente);
         return "Cliente creado exitosamente";
     }
 

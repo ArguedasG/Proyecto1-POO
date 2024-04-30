@@ -4,6 +4,9 @@
  */
 package UI;
 
+import javax.swing.JOptionPane;
+import Control.Control;
+
 /**
  *
  * @author Gabriel
@@ -13,6 +16,7 @@ public class ClientMenu extends javax.swing.JPanel {
     /**
      * Creates new form ClientMenu
      */
+    
     public ClientMenu() {
         initComponents();
     }
@@ -25,6 +29,9 @@ public class ClientMenu extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        // Crea una instancia de la clase Control
+        Control control = new Control();
 
         ClienteButton = new javax.swing.JButton();
         InsClienteButton = new javax.swing.JButton();
@@ -47,6 +54,22 @@ public class ClientMenu extends javax.swing.JPanel {
         InsClienteButton.setForeground(new java.awt.Color(177, 177, 177));
         InsClienteButton.setText("Ingresar Cliente");
 
+        
+        InsClienteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // Solicita al usuario que ingrese el nombre, el email y el teléfono
+                String nombre = JOptionPane.showInputDialog("Ingrese el nombre del cliente");
+                String email = JOptionPane.showInputDialog("Ingrese el email del cliente");
+                String telefono = JOptionPane.showInputDialog("Ingrese el teléfono del cliente");
+            
+                // Llama al método crearCliente en la instancia de Control
+                String resultado = control.crearCliente(nombre, email, telefono);
+        
+                // Muestra el resultado en un cuadro de diálogo
+                JOptionPane.showMessageDialog(null, resultado);
+            }
+        });
+
         BackButton.setBackground(new java.awt.Color(19, 23, 25));
         BackButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         BackButton.setForeground(new java.awt.Color(177, 177, 177));
@@ -61,6 +84,19 @@ public class ClientMenu extends javax.swing.JPanel {
         DelClienteButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         DelClienteButton.setForeground(new java.awt.Color(177, 177, 177));
         DelClienteButton.setText("Borrar Cliente");
+
+        DelClienteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // Solicita al usuario que ingrese el número de teléfono
+                String telefono = JOptionPane.showInputDialog("Ingrese el número de teléfono del cliente a borrar");
+            
+                // Llama al método borrarCliente en la instancia de Control
+                String resultado = control.borrarCliente(telefono);
+            
+                // Muestra el resultado en un cuadro de diálogo
+                JOptionPane.showMessageDialog(null, resultado);
+            }
+        });
 
         ModClienteButton.setBackground(new java.awt.Color(19, 23, 25));
         ModClienteButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
