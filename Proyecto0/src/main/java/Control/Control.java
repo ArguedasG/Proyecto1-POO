@@ -58,31 +58,36 @@ public class Control {
         return "Cliente creado exitosamente";
     }
 
-    public String modificarCliente(String nombre, String email, String telefono) {
-        Cliente cliente = clientes.get(telefono);
-        if (cliente == null) {
-            return "Cliente no encontrado";
+    public String modificarCliente(String newEmail, String telefono, String email) {
+        Cliente cliente = clientes.get(email);
+    
+        if (!cliente.isEmail(newEmail)) {
+            return "Email no válido";
         }
-
-        cliente.setNombre(nombre);
-        cliente.setEmail(email);
+    
+        if (!cliente.isTelefono(telefono)) {
+            return "Teléfono no válido";
+        }
+    
+        cliente.setTelefono(telefono);
+        cliente.setEmail(newEmail);
         return "Cliente modificado exitosamente";
     }
-
-    public String borrarCliente(String telefono) {
-        if (clientes.remove(telefono) != null) {
+    
+    public String borrarCliente(String email) {
+        if (clientes.remove(email) != null) {
             return "Cliente borrado exitosamente";
         } else {
             return "Cliente no encontrado";
         }
     }
-
-    public String consultarCliente(String telefono) {
-        Cliente cliente = clientes.get(telefono);
+    
+    public String consultarCliente(String email) {
+        Cliente cliente = clientes.get(email);
         if (cliente == null) {
             return "Cliente no encontrado";
         }
-
+    
         return cliente.toString();
     }
 
