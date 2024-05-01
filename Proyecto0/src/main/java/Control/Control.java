@@ -404,20 +404,19 @@ public class Control implements Serializable {
     // Horario
     //
     
-    public void establecerHorario(String diaSemana, LocalTime inicio, LocalTime cierre) {
-        Dia dia = this.horario.get(DayOfWeek.valueOf(diaSemana));
-        dia.setHoraInicio(inicio);
-        dia.setHoraCierre(cierre);
+    public void establecerHorario(DayOfWeek diaSemana, String inicio, String cierre) {
+        Dia dia = this.horario.get(diaSemana);
+        dia.setHoraInicio(LocalTime.parse(inicio));
+        dia.setHoraCierre(LocalTime.parse(cierre));
     }
     
-    public Map<String, LocalTime[]> consultarHorario() {
-        Set<DayOfWeek> keys= this.horario.keySet();
-        Map<String, LocalTime[]> listaHorarios = new HashMap();
+    public Map<DayOfWeek, String[]> consultarHorario() {
+        Map<DayOfWeek, String[]> listaHorarios = new HashMap();
         
-        for (DayOfWeek llave : keys) {
-            Dia dia = this.horario.get(llave);
-            LocalTime[] lapso = {dia.getHoraInicio(), dia.getHoraCierre()};
-            listaHorarios.put(String.valueOf(llave), lapso);
+        for (Map.Entry<DayOfWeek, Dia> entry : this.horario.entrySet()) {
+            Dia dia = entry.getValue();
+            String[] lapso = {dia.getHoraInicio().toString(), dia.getHoraCierre().toString()};
+            listaHorarios.put(entry.getKey(), lapso);
         }
         
         return listaHorarios;

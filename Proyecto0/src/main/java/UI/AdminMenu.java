@@ -4,6 +4,9 @@
  */
 package UI;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Gabriel
@@ -67,6 +70,11 @@ public class AdminMenu extends javax.swing.JPanel {
         ModHoraButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         ModHoraButton.setForeground(new java.awt.Color(177, 177, 177));
         ModHoraButton.setText("Modificar Horario");
+        ModHoraButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModHoraButtonActionPerformed(evt);
+            }
+        });
 
         BackButton1.setBackground(new java.awt.Color(19, 23, 25));
         BackButton1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -112,7 +120,11 @@ public class AdminMenu extends javax.swing.JPanel {
         MainFrame.getInstance().showPage("MainMenu");
     }//GEN-LAST:event_BackButton1ActionPerformed
 
-
+    private void ModHoraButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModHoraButtonActionPerformed
+        AdminHorario dialog = new AdminHorario(MainFrame.getInstance(), true);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_ModHoraButtonActionPerformed
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton1;
     private javax.swing.JButton ModHoraButton;
