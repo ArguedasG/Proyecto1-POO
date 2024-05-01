@@ -164,8 +164,8 @@ public class CitaMenu extends javax.swing.JPanel {
                     String listaServicios = control.listaServicio().toString();
                     String tipoElegido = JOptionPane.showInputDialog("Lista de servicios disponibles: \n" + listaServicios + "\nIngrese el nuevo tipo de servicio:");
             
-                    Servicio tipoServicio = Servicio.getServicioPorNombre(tipoElegido);
-                    control.modificarCitaExistente(numeroCita, fecha, hora, tipoServicio);
+                    Servicio servicio = control.getServicioPorNombre(tipoElegido);
+                    control.modificarCitaExistente(numeroCita, fecha, hora, servicio);
                     
                     // Mostrar mensaje de confirmación
                     JOptionPane.showMessageDialog(null, "La cita ha sido modificada exitosamente.");

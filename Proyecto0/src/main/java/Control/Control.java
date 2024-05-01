@@ -381,6 +381,14 @@ public class Control implements Serializable {
             
         return serv;
     }
+
+    public Servicio getServicioPorNombre(String nombre) throws Exception {
+        Servicio servicio = this.servicios.get(nombre);
+        if (servicio == null) {
+            throw new Exception("No se encontró ningún servicio con el nombre: " + nombre);
+        }
+        return servicio;
+    }
     
     //
     // Lista Espera
