@@ -137,6 +137,19 @@ public class ClientMenu extends javax.swing.JPanel {
         ConsClienteButton.setForeground(new java.awt.Color(177, 177, 177));
         ConsClienteButton.setText("Consultar Cliente");
 
+        ConsClienteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // Solicita al usuario que ingrese el email del cliente a consultar
+                String email = JOptionPane.showInputDialog("Ingrese el email del cliente a consultar");
+                
+                // Llama al método consultarCliente en la instancia de Control
+                String datosCliente = control.consultarCliente(email);
+                
+                // Muestra los datos del cliente en un cuadro de diálogo
+                JOptionPane.showMessageDialog(null, datosCliente);
+            }
+        });
+
         jPanel3.setBackground(new java.awt.Color(29, 29, 29));
         jPanel3.setPreferredSize(new java.awt.Dimension(322, 85));
 
