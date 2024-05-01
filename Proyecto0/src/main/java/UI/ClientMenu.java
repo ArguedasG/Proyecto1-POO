@@ -30,9 +30,6 @@ public class ClientMenu extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        // Crea una instancia de la clase Control
-        Control control = Control.getInstance();
-
         ClienteButton = new javax.swing.JButton();
         InsClienteButton = new javax.swing.JButton();
         BackButton = new javax.swing.JButton();
@@ -53,20 +50,9 @@ public class ClientMenu extends javax.swing.JPanel {
         InsClienteButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         InsClienteButton.setForeground(new java.awt.Color(177, 177, 177));
         InsClienteButton.setText("Ingresar Cliente");
-
-        
         InsClienteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                // Solicita al usuario que ingrese el nombre, el email y el teléfono
-                String nombre = JOptionPane.showInputDialog("Ingrese el nombre del cliente");
-                String email = JOptionPane.showInputDialog("Ingrese el email del cliente");
-                String telefono = JOptionPane.showInputDialog("Ingrese el teléfono del cliente");
-            
-                // Llama al método crearCliente en la instancia de Control
-                String resultado = control.crearCliente(nombre, email, telefono);
-        
-                // Muestra el resultado en un cuadro de diálogo
-                JOptionPane.showMessageDialog(null, resultado);
+                InsClienteButtonActionPerformed(evt);
             }
         });
 
@@ -85,50 +71,13 @@ public class ClientMenu extends javax.swing.JPanel {
         DelClienteButton.setForeground(new java.awt.Color(177, 177, 177));
         DelClienteButton.setText("Borrar Cliente");
 
-        DelClienteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                // Solicita al usuario que ingrese el email del cliente a borrar
-                String email = JOptionPane.showInputDialog("Ingrese el email del cliente a borrar");
-            
-                // Llama al método borrarCliente en la instancia de Control
-                String resultado = control.borrarCliente(email);
-            
-                // Muestra el resultado en un cuadro de diálogo
-                JOptionPane.showMessageDialog(null, resultado);
-            }
-        });
-
         ModClienteButton.setBackground(new java.awt.Color(19, 23, 25));
         ModClienteButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         ModClienteButton.setForeground(new java.awt.Color(177, 177, 177));
         ModClienteButton.setText("Modificar Cliente");
-
         ModClienteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                // Solicita al usuario que ingrese el email del cliente a modificar
-                String email = JOptionPane.showInputDialog("Ingrese el email del cliente a modificar");
-                
-                // Llama al método consultarCliente en la instancia de Control
-                String datosCliente = control.consultarCliente(email);
-                
-                // Si el cliente no se encuentra, termina la ejecución
-                if (datosCliente.equals("Cliente no encontrado")) {
-                    JOptionPane.showMessageDialog(null, datosCliente);
-                    return;
-                }
-                
-                // Muestra los datos actuales del cliente
-                JOptionPane.showMessageDialog(null, datosCliente);
-                
-                // Solicita al usuario que ingrese el nuevo email y el teléfono del cliente
-                String newEmail = JOptionPane.showInputDialog("Ingrese el nuevo email del cliente");
-                String telefono = JOptionPane.showInputDialog("Ingrese el nuevo teléfono del cliente");
-            
-                // Llama al método modificarCliente en la instancia de Control
-                String resultado = control.modificarCliente(newEmail, telefono, email);
-            
-                // Muestra el resultado en un cuadro de diálogo
-                JOptionPane.showMessageDialog(null, resultado);
+                ModClienteButtonActionPerformed(evt);
             }
         });
 
@@ -136,19 +85,6 @@ public class ClientMenu extends javax.swing.JPanel {
         ConsClienteButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         ConsClienteButton.setForeground(new java.awt.Color(177, 177, 177));
         ConsClienteButton.setText("Consultar Cliente");
-
-        ConsClienteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                // Solicita al usuario que ingrese el email del cliente a consultar
-                String email = JOptionPane.showInputDialog("Ingrese el email del cliente a consultar");
-                
-                // Llama al método consultarCliente en la instancia de Control
-                String datosCliente = control.consultarCliente(email);
-                
-                // Muestra los datos del cliente en un cuadro de diálogo
-                JOptionPane.showMessageDialog(null, datosCliente);
-            }
-        });
 
         jPanel3.setBackground(new java.awt.Color(29, 29, 29));
         jPanel3.setPreferredSize(new java.awt.Dimension(322, 85));
@@ -215,6 +151,14 @@ public class ClientMenu extends javax.swing.JPanel {
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         MainFrame.getInstance().showPage("MainMenu");
     }//GEN-LAST:event_BackButtonActionPerformed
+
+    private void InsClienteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsClienteButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InsClienteButtonActionPerformed
+
+    private void ModClienteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModClienteButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ModClienteButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

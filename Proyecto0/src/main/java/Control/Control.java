@@ -104,7 +104,8 @@ public class Control implements Serializable {
     
     public void crearCita(LocalDate fecha, LocalTime hora, String telefonoCliente, String tipoElegido) throws Exception {
         DayOfWeek dia = fecha.getDayOfWeek();
-        if (validarDiaYHora(dia, hora) == 1){
+        LocalDateTime fechaAValidar = LocalDateTime.of(fecha.getYear(), fecha.getMonthValue(), fecha.getDayOfMonth(), hora.getHour(), hora.getMinute());
+        if (validarDiaHoraYFecha(dia, hora, fechaAValidar) == 1){
             for (Map.Entry<String, Cliente> clientesCita : clientes.entrySet()){
                 if (clientesCita.getValue().getTelefono().equals(telefonoCliente)){
                     for (Map.Entry<String, Servicio> serviciosCita : servicios.entrySet()){
@@ -123,24 +124,49 @@ public class Control implements Serializable {
         }
     }
     
-    private int validarDiaYHora (DayOfWeek dia, LocalTime hora)throws Exception{
-        int aprobado = 1;
+    private int validarDiaHoraYFecha (DayOfWeek dia, LocalTime hora, LocalDateTime fechaValidar)throws Exception{
+        int aprobado = 0;
+        LocalDateTime fechaAValidar = fechaValidar;
         for (Map.Entry<DayOfWeek, Dia> dias : horario.entrySet()){
             if (dias.getKey().equals(dia)){
                 if (hora.isAfter(dias.getValue().getHoraInicio()) && hora.isBefore(dias.getValue().getHoraCierre())){
+                    for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
+                        Cita citaAValidar = cita.getValue();
+                        if (citaAValidar.getFecha().equals(fechaAValidar)){
+                            throw new Exception("La fecha de la cita ya se encuentra ocupada");
+                        }
+                    }
+                    aprobado = 1;
                     return aprobado;
+                    
                 }
                 else{
-                    aprobado=0;
                     throw new Exception("La hora no está dentro del horario de atención de ese día");
                 }
+                
             }
         }
-        aprobado=0;
         throw new Exception("El día no está dentro del horario de atencíon");
     }
     
-    public int mostrarCitaExistente(int numero, LocalDate fecha, LocalTime hora, Servicio tipoElegido)throws Exception {
+    private int validarDiaYHora (DayOfWeek dia, LocalTime hora)throws Exception{
+        int aprobado = 0;
+        for (Map.Entry<DayOfWeek, Dia> dias : horario.entrySet()){
+            if (dias.getKey().equals(dia)){
+                if (hora.isAfter(dias.getValue().getHoraInicio()) && hora.isBefore(dias.getValue().getHoraCierre())){
+                    aprobado = 1;
+                    return aprobado;
+                }
+                else{
+                    throw new Exception("La hora no está dentro del horario de atención de ese día");
+                }
+                
+            }
+        }
+        throw new Exception("El día no está dentro del horario de atencíon");
+    }
+    
+    public int modificarCitaExistente(int numero, LocalDate fecha, LocalTime hora, Servicio tipoElegido)throws Exception {
         DayOfWeek dia = fecha.getDayOfWeek();
         for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
             if (cita.getKey().equals(numero)){
@@ -198,6 +224,55 @@ public class Control implements Serializable {
     
     public Map<Integer, String> listaCitas() {
         return new HashMap();
+    }
+    
+    
+    public void enviarNotificacion()throws Exception{
+        ArrayList<Cita> citasANotificar = new ArrayList<Cita>();
+        LocalDateTime fecha = LocalDateTime.now();
+        int año = fecha.getYear();
+        int diaDelAño = fecha.getDayOfYear();
+        if (diaDelAño == 365){
+            fecha.withYear(año++);
+            fecha.withDayOfYear(1);
+            for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
+                if (cita.getValue().getFecha().getYear() == fecha.getYear() && cita.getValue().getFecha().getDayOfYear() == fecha.getDayOfYear()){
+                           citasANotificar.add(cita.getValue());
+                }
+            }
+            if (citasANotificar.isEmpty()){
+                throw new Exception("No hay citas para el dia de mañana");
+            }
+            else{
+                for (Cita citaANotificar : citasANotificar){
+                    try {
+                        citaANotificar.confirmar();
+                    }catch (Exception ex){
+                        
+                    }
+                }
+            }
+        }
+        else{
+            fecha.withDayOfYear(diaDelAño++);
+            for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
+                if (cita.getValue().getFecha().getYear() == fecha.getYear() && cita.getValue().getFecha().getDayOfYear() == fecha.getDayOfYear()){
+                           citasANotificar.add(cita.getValue());
+                }
+            }
+            if (citasANotificar.isEmpty()){
+                throw new Exception("No hay citas para el dia de mañana");
+            }
+            else{
+                for (Cita citaANotificar : citasANotificar){
+                    try {
+                        citaANotificar.confirmar();
+                    }catch (Exception ex){
+                        
+                    }
+                }
+            }
+        }
     }
     
     public Map<LocalDateTime, String> verCalendarioCitas(String opcion, LocalDate inicio) {
@@ -324,9 +399,6 @@ public class Control implements Serializable {
         listaEspera.remove(cliente);
     }
     
-    public void enviarNotificacion() {
-        
-    }
     
     //
     // Horario
