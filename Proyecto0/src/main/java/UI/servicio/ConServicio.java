@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -108,6 +109,18 @@ public class ConServicio extends javax.swing.JDialog {
 
     private void ConButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConButtonActionPerformed
         String tipo = (String) this.TipoServicio.getSelectedItem();
+        
+        switch (tipo) {
+            case "Elija un servicio" -> {
+                JOptionPane.showMessageDialog(this, "Por favor, elija un servicio");
+                return;
+            }
+            case "No hay servicios" -> {
+                JOptionPane.showMessageDialog(this, "No hay servicios disponibles");
+                return;
+            }
+        }
+        
         try {
             String servicio = Control.getInstance().consultarServicio(tipo);
             String mensaje = this.descifrarServicio(servicio);

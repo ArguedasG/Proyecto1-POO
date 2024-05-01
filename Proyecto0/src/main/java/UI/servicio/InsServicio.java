@@ -5,7 +5,6 @@
 package UI.servicio;
 
 import Control.Control;
-import UI.MainFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -130,8 +129,14 @@ public class InsServicio extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void InsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsButtonActionPerformed
-        String tipo = this.TipoServicio.getText();
-        String desc = this.DescServicio.getText();
+        String tipo = this.TipoServicio.getText().trim();
+        String desc = this.DescServicio.getText().trim();
+        
+        if (tipo.isEmpty() | desc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese los datos solicitados");
+            return;
+        }
+        
         Control.getInstance().crearServicio(tipo, desc);
         String mensaje = "Se ha creado el servicio de " + tipo;
         ServicioOptionPane.finalMessage(this, mensaje);

@@ -7,6 +7,7 @@ package UI.servicio;
 import Control.Control;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -130,7 +131,24 @@ public class ModServicio extends javax.swing.JDialog {
 
     private void ModButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModButtonActionPerformed
         String tipo = (String) this.TipoServicio.getSelectedItem();
-        String desc = this.DescServicio.getText();
+        String desc = this.DescServicio.getText().trim();
+        
+        switch (tipo) {
+            case "Elija un servicio" -> {
+                JOptionPane.showMessageDialog(this, "Por favor, elija un servicio");
+                return;
+            }
+            case "No hay servicios" -> {
+                JOptionPane.showMessageDialog(this, "No hay servicios disponibles");
+                return;
+            }
+        }
+        
+        if (desc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese los datos solicitados");
+            return;
+        }
+        
         try {
             Control.getInstance().modificarServicio(tipo, desc);
             String mensaje = "Se ha modificado el servicio de " + tipo;

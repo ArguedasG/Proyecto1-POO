@@ -4,6 +4,8 @@
  */
 package UI;
 
+import UI.listaEspera.ListaOptionPane;
+
 /**
  *
  * @author Gabriel
@@ -79,6 +81,11 @@ public class ListaEsperaMenu extends javax.swing.JPanel {
         InsListaButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         InsListaButton.setForeground(new java.awt.Color(177, 177, 177));
         InsListaButton.setText("Ingresar a Lista");
+        InsListaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InsListaButtonActionPerformed(evt);
+            }
+        });
 
         DelServicioButton.setBackground(new java.awt.Color(19, 23, 25));
         DelServicioButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -139,6 +146,10 @@ public class ListaEsperaMenu extends javax.swing.JPanel {
     private void BackButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButton1ActionPerformed
         MainFrame.getInstance().showPage("MainMenu");
     }//GEN-LAST:event_BackButton1ActionPerformed
+
+    private void InsListaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsListaButtonActionPerformed
+        ListaOptionPane.agregarLista();
+    }//GEN-LAST:event_InsListaButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

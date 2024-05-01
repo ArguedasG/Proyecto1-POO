@@ -41,12 +41,12 @@ public class Cliente implements Serializable {
     }
 
     public boolean isTelefono(String telefono){
+        // Verifica si el teléfono es nulo
+        if (telefono == null) {
+            return false;
+        }
+    
         // Expresión regular que coincide con el formato de número de teléfono
-        // ^\+? indica que el número puede comenzar con un '+' opcional
-        // \d* indica cualquier número de dígitos
-        // -? indica un guión opcional
-        // \d+ indica uno o más dígitos
-        // $ indica el final de la línea
         String regex = "^\\+?\\d*-?\\d+$";
     
         // Devuelve true si el número de teléfono coincide con la expresión regular, false en caso contrario
@@ -54,16 +54,14 @@ public class Cliente implements Serializable {
     }
     
     public boolean isEmail(String email){
+        // Verifica si el correo electrónico es nulo
+        if (email == null) {
+            return false;
+        }
+    
         // Expresión regular que coincide con el formato de correo electrónico
-        // ^ indica el inicio de la línea
-        // [a-zA-Z0-9._%+-]+ indica uno o más caracteres alfanuméricos, '.', '_', '%', '+' o '-'
-        // @ indica un arroba
-        // [a-zA-Z0-9.-]+ indica uno o más caracteres alfanuméricos, '.' o '-'
-        // \. indica un punto
-        // [a-zA-Z]{2,} indica dos o más caracteres alfabéticos
-        // $ indica el final de la línea
         String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        
+    
         // Devuelve true si el correo electrónico coincide con la expresión regular, false en caso contrario
         return email.matches(regex);
     }

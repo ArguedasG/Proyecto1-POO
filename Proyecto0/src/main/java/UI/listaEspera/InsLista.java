@@ -2,26 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package UI.servicio;
+package UI.listaEspera;
 
 import Control.Control;
 import java.util.List;
+import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author Gabriel
  */
-public class DelServicio extends javax.swing.JDialog {
+public class InsLista extends javax.swing.JDialog {
 
-    /**
-     * Creates new form DelServicio
-     */
-    public DelServicio(java.awt.Frame parent, boolean modal) {
+    Map<String, String> clientes;
+    
+    public InsLista(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.inicializarTipos();
+        this.inicializarClientes();
     }
 
     /**
@@ -35,8 +34,8 @@ public class DelServicio extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        DelButton = new javax.swing.JButton();
-        TipoServicio = new javax.swing.JComboBox<>();
+        InsButton = new javax.swing.JButton();
+        ClienteSeleccionado = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -45,21 +44,21 @@ public class DelServicio extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(192, 192, 192));
-        jLabel1.setText("Tipo de Servicio:");
+        jLabel1.setText("Cliente a agregar:");
 
-        DelButton.setBackground(new java.awt.Color(19, 23, 25));
-        DelButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        DelButton.setForeground(new java.awt.Color(177, 177, 177));
-        DelButton.setText("Borrar");
-        DelButton.addActionListener(new java.awt.event.ActionListener() {
+        InsButton.setBackground(new java.awt.Color(19, 23, 25));
+        InsButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        InsButton.setForeground(new java.awt.Color(177, 177, 177));
+        InsButton.setText("Agregar");
+        InsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DelButtonActionPerformed(evt);
+                InsButtonActionPerformed(evt);
             }
         });
 
-        TipoServicio.setBackground(new java.awt.Color(68, 75, 75));
-        TipoServicio.setForeground(new java.awt.Color(226, 226, 226));
-        TipoServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No hay servicios" }));
+        ClienteSeleccionado.setBackground(new java.awt.Color(68, 75, 75));
+        ClienteSeleccionado.setForeground(new java.awt.Color(226, 226, 226));
+        ClienteSeleccionado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No hay clientes" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -71,11 +70,11 @@ public class DelServicio extends javax.swing.JDialog {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
-                        .addComponent(TipoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(ClienteSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(140, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(DelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(InsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
         );
         jPanel1Layout.setVerticalGroup(
@@ -84,9 +83,9 @@ public class DelServicio extends javax.swing.JDialog {
                 .addContainerGap(84, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(TipoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ClienteSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55)
-                .addComponent(DelButton)
+                .addComponent(InsButton)
                 .addGap(37, 37, 37))
         );
 
@@ -105,39 +104,23 @@ public class DelServicio extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void DelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DelButtonActionPerformed
-        String tipo = (String) this.TipoServicio.getSelectedItem();
+    private void InsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsButtonActionPerformed
         
-        switch (tipo) {
-            case "Elija un servicio" -> {
-                JOptionPane.showMessageDialog(this, "Por favor, elija un servicio");
-                return;
-            }
-            case "No hay servicios" -> {
-                JOptionPane.showMessageDialog(this, "No hay servicios disponibles");
-                return;
-            }
-        }
+    }//GEN-LAST:event_InsButtonActionPerformed
+
+    private void inicializarClientes() {
+        this.clientes = Control.getInstance().listaClientes();
         
-        try {
-            Control.getInstance().borrarServicio(tipo);
-            String mensaje = "Se ha borrado el servicio de " + tipo;
-            ServicioOptionPane.finalMessage(this, mensaje);
-        } catch (Exception e) {
-            ServicioOptionPane.finalMessage(this, e.getMessage());
-        }
-    }//GEN-LAST:event_DelButtonActionPerformed
-    
-    private void inicializarTipos() {
-        List<String> servicios = Control.getInstance().listaServicio();
-        
-        if (!servicios.isEmpty()) {
+        if (!clientes.isEmpty()) {
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-            model.addElement("Elija un servicio");
-            model.addAll(servicios);
-            this.TipoServicio.setModel(model);
+            model.addElement("Elija un cliente");
+            
+            for (Map.Entry<String, String> entry : clientes.entrySet()) {
+                String nombre = ListaOptionPane.getNombreCliente(entry.getValue());
+            }
+            
+            this.ClienteSeleccionado.setModel(model);
         }
-        
     }
     
     /**
@@ -157,20 +140,20 @@ public class DelServicio extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DelServicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InsLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DelServicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InsLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DelServicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InsLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DelServicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InsLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DelServicio dialog = new DelServicio(new javax.swing.JFrame(), true);
+                InsLista dialog = new InsLista(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -183,8 +166,8 @@ public class DelServicio extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton DelButton;
-    private javax.swing.JComboBox<String> TipoServicio;
+    private javax.swing.JComboBox<String> ClienteSeleccionado;
+    private javax.swing.JButton InsButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
