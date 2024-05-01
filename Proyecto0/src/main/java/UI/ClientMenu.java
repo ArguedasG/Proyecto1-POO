@@ -31,7 +31,7 @@ public class ClientMenu extends javax.swing.JPanel {
     private void initComponents() {
 
         // Crea una instancia de la clase Control
-        Control control = new Control();
+        Control control = Control.getInstance();
 
         ClienteButton = new javax.swing.JButton();
         InsClienteButton = new javax.swing.JButton();
