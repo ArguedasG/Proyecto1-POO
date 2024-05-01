@@ -4,11 +4,23 @@
  */
 package UI;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
+
+import javax.swing.JOptionPane;
+
+import Control.Control;
+
 /**
  *
  * @author Gabriel
  */
 public class CitaMenu extends javax.swing.JPanel {
+
+    Control control = Control.getInstance();
 
     /**
      * Creates new form CitaMenu
@@ -58,6 +70,42 @@ public class CitaMenu extends javax.swing.JPanel {
         InsCitaButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         InsCitaButton.setForeground(new java.awt.Color(177, 177, 177));
         InsCitaButton.setText("Ingresar Cita");
+
+        InsCitaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    // Solicitar la fecha
+                    String fechaStr = JOptionPane.showInputDialog("Ingrese la fecha en formato YYYY-MM-DD:");
+                    LocalDate fecha = LocalDate.parse(fechaStr);
+            
+                    // Solicitar la hora
+                    String horaStr = JOptionPane.showInputDialog("Ingrese la hora (solo se permiten horas completas o medias, por ejemplo, 7:00 o 7:30):");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a", Locale.ENGLISH);
+                    LocalTime hora = LocalTime.parse(horaStr, formatter);
+            
+                    // Validar que la hora sea correcta
+                    if (hora.getMinute() != 0 && hora.getMinute() != 30) {
+                        JOptionPane.showMessageDialog(null, "La hora ingresada no es válida. Solo se permiten horas completas o medias (por ejemplo, 7:00 o 7:30).");
+                        return;
+                    }
+            
+                    // Mostrar la lista de clientes y solicitar el número de teléfono
+                    String listaClientes = control.listaClientes().toString();
+                    String telefonoCliente = JOptionPane.showInputDialog("Lista de clientes disponibles: \n" + listaClientes + "\nIngrese el número de teléfono del cliente:");
+            
+                    // Mostrar la lista de servicios y solicitar el tipo de servicio
+                    String listaServicios = control.listaServicio().toString();
+                    String tipoElegido = JOptionPane.showInputDialog("Lista de servicios disponibles: \n" + listaServicios + "\nIngrese el tipo de servicio:");
+            
+                    // Llamar al método crearCita
+                    control.crearCita(fecha, hora, telefonoCliente, tipoElegido);
+                } catch (DateTimeParseException e) {
+                    JOptionPane.showMessageDialog(null, "La fecha o la hora ingresada no es válida. Por favor, intente de nuevo.");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error al crear la cita. Por favor, intente de nuevo.");
+                }
+            }
+        });
 
         DelCitaButton.setBackground(new java.awt.Color(19, 23, 25));
         DelCitaButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
