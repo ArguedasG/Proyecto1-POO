@@ -16,6 +16,11 @@ public class ClientMenu extends javax.swing.JPanel {
     /**
      * Creates new form ClientMenu
      */
+
+     
+    // Crea una instancia de la clase Control
+    Control control = Control.getInstance();
+
     
     public ClientMenu() {
         initComponents();
@@ -52,9 +57,19 @@ public class ClientMenu extends javax.swing.JPanel {
         InsClienteButton.setText("Ingresar Cliente");
         InsClienteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InsClienteButtonActionPerformed(evt);
+                // Solicita al usuario que ingrese el nombre, el email y el teléfono
+                String nombre = JOptionPane.showInputDialog("Ingrese el nombre del cliente");
+                String email = JOptionPane.showInputDialog("Ingrese el email del cliente");
+                String telefono = JOptionPane.showInputDialog("Ingrese el teléfono del cliente");
+                                    
+                // Llama al método crearCliente en la instancia de Control
+                String resultado = control.crearCliente(nombre, email, telefono);
+                                
+                // Muestra el resultado en un cuadro de diálogo
+                JOptionPane.showMessageDialog(null, resultado);
             }
         });
+
 
         BackButton.setBackground(new java.awt.Color(19, 23, 25));
         BackButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -70,6 +85,20 @@ public class ClientMenu extends javax.swing.JPanel {
         DelClienteButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         DelClienteButton.setForeground(new java.awt.Color(177, 177, 177));
         DelClienteButton.setText("Borrar Cliente");
+        
+        DelClienteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // Solicita al usuario que ingrese el email del cliente a borrar
+                String email = JOptionPane.showInputDialog("Ingrese el email del cliente a borrar");
+            
+                // Llama al método borrarCliente en la instancia de Control
+                String resultado = control.borrarCliente(email);
+            
+                // Muestra el resultado en un cuadro de diálogo
+                JOptionPane.showMessageDialog(null, resultado);
+            }
+        });
+
 
         ModClienteButton.setBackground(new java.awt.Color(19, 23, 25));
         ModClienteButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -77,7 +106,31 @@ public class ClientMenu extends javax.swing.JPanel {
         ModClienteButton.setText("Modificar Cliente");
         ModClienteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ModClienteButtonActionPerformed(evt);
+                // Solicita al usuario que ingrese el email del cliente a modificar
+                String email = JOptionPane.showInputDialog("Ingrese el email del cliente a modificar");
+                
+                // Llama al método consultarCliente en la instancia de Control
+                String datosCliente = control.consultarCliente(email);
+                                
+                // Si el cliente no se encuentra, termina la ejecución
+                if (datosCliente.equals("Cliente no encontrado")) {
+                    JOptionPane.showMessageDialog(null, datosCliente);
+                    return;
+                }
+                                
+                // Muestra los datos actuales del cliente
+                JOptionPane.showMessageDialog(null, datosCliente);
+                                
+                // Solicita al usuario que ingrese el nuevo email y el teléfono del cliente
+                String newEmail = JOptionPane.showInputDialog("Ingrese el nuevo email del cliente");
+                String telefono = JOptionPane.showInputDialog("Ingrese el nuevo teléfono del cliente");
+                            
+                // Llama al método modificarCliente en la instancia de Control
+                String resultado = control.modificarCliente(newEmail, telefono, email);
+                            
+                // Muestra el resultado en un cuadro de diálogo
+                JOptionPane.showMessageDialog(null, resultado);
+                
             }
         });
 
@@ -85,6 +138,20 @@ public class ClientMenu extends javax.swing.JPanel {
         ConsClienteButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         ConsClienteButton.setForeground(new java.awt.Color(177, 177, 177));
         ConsClienteButton.setText("Consultar Cliente");
+        
+        ConsClienteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // Solicita al usuario que ingrese el email del cliente a consultar
+                String email = JOptionPane.showInputDialog("Ingrese el email del cliente a consultar");
+                
+                // Llama al método consultarCliente en la instancia de Control
+                String datosCliente = control.consultarCliente(email);
+                
+                // Muestra los datos del cliente en un cuadro de diálogo
+                JOptionPane.showMessageDialog(null, datosCliente);
+            }
+        });
+
 
         jPanel3.setBackground(new java.awt.Color(29, 29, 29));
         jPanel3.setPreferredSize(new java.awt.Dimension(322, 85));

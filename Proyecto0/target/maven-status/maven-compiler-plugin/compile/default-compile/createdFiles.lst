@@ -2,6 +2,7 @@ UI\MainFrame$1.class
 UI\ListaEsperaMenu.class
 UI\servicio\InsServicio$2$1.class
 UI\servicio\ModServicio$2$1.class
+UI\ClientMenu$5.class
 UI\AdminHorario.class
 UI\MainMenu$5.class
 UI\ListaEsperaMenu$4.class
@@ -14,6 +15,7 @@ UI\ListaEsperaMenu$1.class
 UI\listaEspera\InsLista$2.class
 UI\servicio\DelServicio.class
 UI\listaEspera\MostrarLista$2.class
+UI\CitaMenu$2.class
 UI\MainMenu.class
 UI\servicio\ModServicio$2.class
 UI\listaEspera\ListaOptionPane.class
@@ -55,6 +57,7 @@ UI\servicio\ModServicio$1.class
 Model\Cita.class
 UI\servicio\ModServicio.class
 UI\AdminHorario$1.class
+UI\ClientMenu$4.class
 UI\ListaEsperaMenu$5.class
 Model\Dia.class
 UI\ServicioMenu$5.class
