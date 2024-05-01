@@ -13,22 +13,40 @@ public class ListaOptionPane {
         dialog.setVisible(true);
     }
     
+    public static void borrarLista() {
+        DelLista dialog = new DelLista(MainFrame.getInstance(), true);
+        dialog.setVisible(true);
+    }
+    
+    public static void mostrarLista() {
+        MostrarLista dialog = new MostrarLista(MainFrame.getInstance(), true);
+        dialog.setVisible(true);
+    }
+    
     public static void finalMessage(JDialog dialog, String mensaje) {
         dialog.dispose();
         JOptionPane.showMessageDialog(MainFrame.getInstance(), mensaje);
     }
     
-    public static String getNombreCliente(String cliente) {
+    public static String getValorCliente(String valor, String cliente) {
         Pattern patron = Pattern.compile("(\\w+)=([^,]+)");
         Matcher valores = patron.matcher(cliente);
         
         while (valores.find()) {
-            if (valores.group(1).equals("nombre")) {
+            if (valores.group(1).equals(valor)) {
                 return valores.group(2);
             }
         }
         
         return "";
+    }
+    
+    public static String getNombreCliente(String cliente) {
+        return getValorCliente("nombre", cliente);
+    }
+    
+    public static String getEmailCliente(String cliente) {
+        return getValorCliente("email", cliente);
     }
     
 }

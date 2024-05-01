@@ -93,7 +93,7 @@ public class Control implements Serializable {
     public Map<String, String> listaClientes() {
         Map<String, String> lista = new HashMap<>();
         for (Map.Entry<String, Cliente> entry : clientes.entrySet()) {
-            lista.put(entry.getKey(), entry.getValue().toString());
+            lista.put(entry.getKey(), entry.getValue().getNombre());
         }
         return lista;
     }
@@ -298,19 +298,29 @@ public class Control implements Serializable {
     // Lista Espera
     //
     
-    public ConcurrentLinkedQueue<Cliente> mostrarListaEspera() {
-        return (ConcurrentLinkedQueue<Cliente>) this.listaEspera;
-    }
-    
-    public void agregarListaEspera(String telefono) {
-        for (Map.Entry<String, Cliente> cliente : clientes.entrySet()){
-            if (cliente.getValue().getTelefono().equals(telefono)){
-                listaEspera.add(cliente.getValue());
-            }
+    public ArrayList<String> mostrarListaEspera() {
+        ArrayList<String> lista = new ArrayList();
+        
+        for (Cliente cliente : this.listaEspera) {
+            lista.add(cliente.toString());
         }
+        
+        return lista;
     }
     
-    public void borrarListaEspera(Cliente cliente) {
+    public void agregarListaEspera(String email) throws Exception {
+        Cliente cliente = this.getCliente(email);
+        
+        if (this.listaEspera.contains(cliente)) {
+            throw new Exception("El cliente ya está en la lista de espera");
+        }
+        
+        this.listaEspera.add(cliente);
+    }
+    
+    public void borrarListaEspera(String email) throws Exception {
+        Cliente cliente = this.getCliente(email);
+        
         listaEspera.remove(cliente);
     }
     
@@ -344,6 +354,14 @@ public class Control implements Serializable {
     //
     // Otros
     //
+    
+    private Cliente getCliente(String email) throws Exception {
+        if (!this.clientes.keySet().contains(email)) {
+            throw new Exception("Ningún cliente está registrado con el correo " + email);
+        }
+        
+        return this.clientes.get(email);
+    }
     
     private void inicializarHorario() {
         LocalTime inicio = LocalTime.of(6, 0);

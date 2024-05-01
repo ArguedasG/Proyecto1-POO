@@ -6,9 +6,8 @@ package UI.listaEspera;
 
 import Control.Control;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Queue;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -16,11 +15,11 @@ import javax.swing.JOptionPane;
  *
  * @author Gabriel
  */
-public class InsLista extends javax.swing.JDialog {
+public class DelLista extends javax.swing.JDialog {
 
     private Map<String, String> clientes;
-    
-    public InsLista(java.awt.Frame parent, boolean modal) {
+
+    public DelLista(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.inicializarClientes();
@@ -47,12 +46,12 @@ public class InsLista extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(192, 192, 192));
-        jLabel1.setText("Cliente a agregar:");
+        jLabel1.setText("Cliente a remover:");
 
         InsButton.setBackground(new java.awt.Color(19, 23, 25));
         InsButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         InsButton.setForeground(new java.awt.Color(177, 177, 177));
-        InsButton.setText("Agregar");
+        InsButton.setText("Borrar");
         InsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 InsButtonActionPerformed(evt);
@@ -109,45 +108,48 @@ public class InsLista extends javax.swing.JDialog {
 
     private void InsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsButtonActionPerformed
         String cliente = (String) this.ClienteSeleccionado.getSelectedItem();
-        
+
         switch (cliente) {
             case "Elija un cliente" -> {
                 JOptionPane.showMessageDialog(this, "Por favor, elija un cliente");
                 return;
             }
             case "No hay clientes" -> {
-                JOptionPane.showMessageDialog(this, "No hay clientes registrados");
+                JOptionPane.showMessageDialog(this, "No hay clientes en lista de espera");
                 return;
             }
         }
-        
+
         try {
             String email = "";
-            
+
             for (Map.Entry<String, String> entry : this.clientes.entrySet()) {
                 if (entry.getValue().equals(cliente)) {
                     email = entry.getKey();
                     break;
                 }
             }
-            
-            Control.getInstance().agregarListaEspera(email);
-            String mensaje = "Se ha agregado el cliente a la lista de espera";
+
+            Control.getInstance().borrarListaEspera(email);
+            String mensaje = "Se ha eliminado el cliente de la lista de espera";
             ListaOptionPane.finalMessage(this, mensaje);
         } catch (Exception e) {
             ListaOptionPane.finalMessage(this, e.getMessage());
         }
     }//GEN-LAST:event_InsButtonActionPerformed
-
+    
     private void inicializarClientes() {
-        this.clientes = Control.getInstance().listaClientes();
+        ArrayList<String> lista = Control.getInstance().mostrarListaEspera();
         
-        if (!clientes.isEmpty()) {
+        if (!lista.isEmpty()) {
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
             model.addElement("Elija un cliente");
+            this.clientes = new HashMap();
             
-            for (Map.Entry<String, String> entry : this.clientes.entrySet()) {
-                String nombre = entry.getValue();
+            for (String cliente : lista) {
+                String nombre = ListaOptionPane.getNombreCliente(cliente);
+                String email = ListaOptionPane.getEmailCliente(cliente);
+                this.clientes.put(email, nombre);
                 model.addElement(nombre);
             }
             
@@ -172,20 +174,20 @@ public class InsLista extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InsLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DelLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InsLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DelLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InsLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DelLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InsLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DelLista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                InsLista dialog = new InsLista(new javax.swing.JFrame(), true);
+                DelLista dialog = new DelLista(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

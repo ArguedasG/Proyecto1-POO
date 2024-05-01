@@ -76,6 +76,11 @@ public class ListaEsperaMenu extends javax.swing.JPanel {
         ConsServicioButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         ConsServicioButton.setForeground(new java.awt.Color(177, 177, 177));
         ConsServicioButton.setText("Mostrar Lista");
+        ConsServicioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsServicioButtonActionPerformed(evt);
+            }
+        });
 
         InsListaButton.setBackground(new java.awt.Color(19, 23, 25));
         InsListaButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -91,6 +96,11 @@ public class ListaEsperaMenu extends javax.swing.JPanel {
         DelServicioButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         DelServicioButton.setForeground(new java.awt.Color(177, 177, 177));
         DelServicioButton.setText("Borrar de Lista");
+        DelServicioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DelServicioButtonActionPerformed(evt);
+            }
+        });
 
         BackButton1.setBackground(new java.awt.Color(19, 23, 25));
         BackButton1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -150,6 +160,14 @@ public class ListaEsperaMenu extends javax.swing.JPanel {
     private void InsListaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsListaButtonActionPerformed
         ListaOptionPane.agregarLista();
     }//GEN-LAST:event_InsListaButtonActionPerformed
+
+    private void DelServicioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DelServicioButtonActionPerformed
+        ListaOptionPane.borrarLista();
+    }//GEN-LAST:event_DelServicioButtonActionPerformed
+
+    private void ConsServicioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsServicioButtonActionPerformed
+        ListaOptionPane.mostrarLista();
+    }//GEN-LAST:event_ConsServicioButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

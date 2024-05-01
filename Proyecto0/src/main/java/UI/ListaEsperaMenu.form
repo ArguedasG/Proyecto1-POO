@@ -139,6 +139,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Mostrar Lista"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ConsServicioButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="InsListaButton">
       <Properties>
@@ -170,6 +173,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Borrar de Lista"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DelServicioButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="BackButton1">
       <Properties>
