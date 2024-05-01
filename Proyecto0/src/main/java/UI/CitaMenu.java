@@ -13,6 +13,7 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 
 import Control.Control;
+import Model.Servicio;
 
 /**
  *
@@ -79,7 +80,7 @@ public class CitaMenu extends javax.swing.JPanel {
                     LocalDate fecha = LocalDate.parse(fechaStr);
             
                     // Solicitar la hora
-                    String horaStr = JOptionPane.showInputDialog("Ingrese la hora (solo se permiten horas completas o medias, por ejemplo, 7:00 o 7:30):");
+                    String horaStr = JOptionPane.showInputDialog("Ingrese la hora (solo se permiten horas completas o medias, por ejemplo, 7:00 AM o 7:30 PM):");
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a", Locale.ENGLISH);
                     LocalTime hora = LocalTime.parse(horaStr, formatter);
             
@@ -112,10 +113,71 @@ public class CitaMenu extends javax.swing.JPanel {
         DelCitaButton.setForeground(new java.awt.Color(177, 177, 177));
         DelCitaButton.setText("Borrar Cita");
 
+        DelCitaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    // Mostrar la lista de citas y solicitar el número de cita
+                    String listaCitas = control.listaCitas().toString();
+                    String numeroCitaStr = JOptionPane.showInputDialog("Lista de citas disponibles: \n" + listaCitas + "\nIngrese el número de la cita que desea borrar:");
+                    
+                    // Convertir el número de cita a int
+                    int numeroCita = Integer.parseInt(numeroCitaStr);
+                
+                    // Llamar al método borrarCita
+                    control.borrarCita(numeroCita);
+        
+                    // Mostrar mensaje de confirmación
+                    JOptionPane.showMessageDialog(null, "La cita ha sido borrada exitosamente.");
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido.");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error al borrar la cita. Por favor, intente de nuevo.");
+                }
+            }
+        });
+
         ModCitaButton.setBackground(new java.awt.Color(19, 23, 25));
         ModCitaButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         ModCitaButton.setForeground(new java.awt.Color(177, 177, 177));
         ModCitaButton.setText("Modificar Cita");
+
+        ModCitaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    // Mostrar la lista de citas y solicitar el número de cita
+                    String listaCitas = control.listaCitas().toString();
+                    String numeroCitaStr = JOptionPane.showInputDialog("Lista de citas disponibles: \n" + listaCitas + "\nIngrese el número de la cita que desea modificar:");
+                    
+                    // Convertir el número de cita a int
+                    int numeroCita = Integer.parseInt(numeroCitaStr);
+        
+                    // Solicitar la fecha
+                    String fechaStr = JOptionPane.showInputDialog("Ingrese la nueva fecha en formato YYYY-MM-DD:");
+                    LocalDate fecha = LocalDate.parse(fechaStr);
+            
+                    // Solicitar la hora
+                    String horaStr = JOptionPane.showInputDialog("Ingrese la nueva hora (solo se permiten horas completas o medias, por ejemplo, 7:00 AM o 7:30 PM):");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a", Locale.ENGLISH);
+                    LocalTime hora = LocalTime.parse(horaStr, formatter);
+            
+                    // Mostrar la lista de servicios y solicitar el tipo de servicio
+                    String listaServicios = control.listaServicio().toString();
+                    String tipoElegido = JOptionPane.showInputDialog("Lista de servicios disponibles: \n" + listaServicios + "\nIngrese el nuevo tipo de servicio:");
+            
+                    Servicio tipoServicio = Servicio.getServicioPorNombre(tipoElegido);
+                    control.modificarCitaExistente(numeroCita, fecha, hora, tipoServicio);
+                    
+                    // Mostrar mensaje de confirmación
+                    JOptionPane.showMessageDialog(null, "La cita ha sido modificada exitosamente.");
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido.");
+                } catch (DateTimeParseException e) {
+                    JOptionPane.showMessageDialog(null, "La fecha o la hora ingresada no es válida. Por favor, intente de nuevo.");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error al modificar la cita. Por favor, intente de nuevo.");
+                }
+            }
+        });
 
         ConsCitaButton.setBackground(new java.awt.Color(19, 23, 25));
         ConsCitaButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N

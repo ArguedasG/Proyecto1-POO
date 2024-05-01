@@ -93,7 +93,8 @@ public class Control implements Serializable {
     public Map<String, String> listaClientes() {
         Map<String, String> lista = new HashMap<>();
         for (Map.Entry<String, Cliente> entry : clientes.entrySet()) {
-            lista.put(entry.getKey(), entry.getValue().getNombre());
+            String detalleCliente = entry.getValue().getNombre() + ", " + entry.getValue().getTelefono();
+            lista.put(entry.getKey(), detalleCliente);
         }
         return lista;
     }
@@ -106,21 +107,29 @@ public class Control implements Serializable {
         DayOfWeek dia = fecha.getDayOfWeek();
         LocalDateTime fechaAValidar = LocalDateTime.of(fecha.getYear(), fecha.getMonthValue(), fecha.getDayOfMonth(), hora.getHour(), hora.getMinute());
         if (validarDiaHoraYFecha(dia, hora, fechaAValidar) == 1){
+            boolean clienteEncontrado = false;
+            boolean servicioEncontrado = false;
             for (Map.Entry<String, Cliente> clientesCita : clientes.entrySet()){
                 if (clientesCita.getValue().getTelefono().equals(telefonoCliente)){
+                    clienteEncontrado = true;
                     for (Map.Entry<String, Servicio> serviciosCita : servicios.entrySet()){
                         if (serviciosCita.getKey().equals(tipoElegido)){
                             LocalDateTime fechaYHora = fecha.atTime(hora);
                             Cita cita = new Cita(fechaYHora, clientesCita.getValue(), serviciosCita.getValue());
                             citas.put(cita.getNumero(), cita);
+                            servicioEncontrado = true;
                             break;
                         }
                     }
-                    throw new Exception("El servicio no existe");
-                
+                    if (!servicioEncontrado) {
+                        throw new Exception("El servicio no existe");
+                    }
+                    break;
                 }
             }
-            throw new Exception("El teléfono que proveyó no coincide con ningúno de los teléfonos de los clientes");
+            if (!clienteEncontrado) {
+                throw new Exception("El teléfono que proveyó no coincide con ningúno de los teléfonos de los clientes");
+            }
         }
     }
     
@@ -223,7 +232,11 @@ public class Control implements Serializable {
     }
     
     public Map<Integer, String> listaCitas() {
-        return new HashMap();
+        Map<Integer, String> lista = new HashMap<>();
+        for (Map.Entry<Integer, Cita> entry : citas.entrySet()) {
+            lista.put(entry.getKey(), entry.getValue().toString());
+        }
+        return lista;
     }
     
     
