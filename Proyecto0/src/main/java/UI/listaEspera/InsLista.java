@@ -15,7 +15,7 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class InsLista extends javax.swing.JDialog {
 
-    Map<String, String> clientes;
+    private Map<String, String> clientes;
     
     public InsLista(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -110,13 +110,15 @@ public class InsLista extends javax.swing.JDialog {
 
     private void inicializarClientes() {
         this.clientes = Control.getInstance().listaClientes();
+        System.out.println(clientes.size());
         
         if (!clientes.isEmpty()) {
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
             model.addElement("Elija un cliente");
             
-            for (Map.Entry<String, String> entry : clientes.entrySet()) {
+            for (Map.Entry<String, String> entry : this.clientes.entrySet()) {
                 String nombre = ListaOptionPane.getNombreCliente(entry.getValue());
+                model.addElement(nombre);
             }
             
             this.ClienteSeleccionado.setModel(model);

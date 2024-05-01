@@ -16,7 +16,7 @@ public class Control implements Serializable {
     private Map<DayOfWeek, Dia> horario;
     private Queue<Cliente> listaEspera;
     
-    public Control() {
+    private Control() {
         this.fecha = LocalDate.now();
         this.clientes = new HashMap();
         this.citas = new HashMap();
@@ -82,6 +82,7 @@ public class Control implements Serializable {
     
     public String consultarCliente(String email) {
         Cliente cliente = clientes.get(email);
+        this.clientes.size();
         if (cliente == null) {
             return "Cliente no encontrado";
         }
@@ -96,6 +97,7 @@ public class Control implements Serializable {
         }
         return lista;
     }
+    
     //
     // Cita
     //
