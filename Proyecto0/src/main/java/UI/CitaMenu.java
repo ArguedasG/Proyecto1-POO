@@ -184,15 +184,80 @@ public class CitaMenu extends javax.swing.JPanel {
         ConsCitaButton.setForeground(new java.awt.Color(177, 177, 177));
         ConsCitaButton.setText("Consultar Cita");
 
+        ConsCitaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    // Solicitar el número de cita al usuario
+                    String numeroCitaStr = JOptionPane.showInputDialog("Ingrese el número de la cita que desea consultar:");
+                    
+                    // Convertir el número de cita a int
+                    int numeroCita = Integer.parseInt(numeroCitaStr);
+            
+                    // Llamar al método consultarCita
+                    String resultadoConsulta = control.consultarCita(numeroCita);
+            
+                    // Mostrar el resultado de la consulta
+                    JOptionPane.showMessageDialog(null, resultadoConsulta);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido.");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error al consultar la cita. Por favor, intente de nuevo.");
+                }
+            }
+        });
+
         ConfCitaButton.setBackground(new java.awt.Color(19, 23, 25));
         ConfCitaButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         ConfCitaButton.setForeground(new java.awt.Color(177, 177, 177));
         ConfCitaButton.setText("Confirmar Cita");
 
+        ConfCitaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    // Mostrar la lista de citas y solicitar el número de cita
+                    String listaCitas = control.listaCitas().toString();
+                    String numeroCitaStr = JOptionPane.showInputDialog("Lista de citas disponibles: \n" + listaCitas + "\nIngrese el número de la cita que desea confirmar:");
+                    
+                    // Convertir el número de cita a int
+                    int numeroCita = Integer.parseInt(numeroCitaStr);
+        
+                    // Llamar al método confirmarCita
+                    control.confirmarCita(numeroCita);
+                    
+                    // Mostrar mensaje de confirmación
+                    JOptionPane.showMessageDialog(null, "La cita ha sido confirmada exitosamente.");
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido.");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error al confirmar la cita. Por favor, intente de nuevo.");
+                }
+            }
+        });
+
         CalCitaButton1.setBackground(new java.awt.Color(19, 23, 25));
         CalCitaButton1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         CalCitaButton1.setForeground(new java.awt.Color(177, 177, 177));
         CalCitaButton1.setText("Ver Calendario");
+
+        CalCitaButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    // Solicitar la opción de visualización del calendario
+                    String opcion = JOptionPane.showInputDialog("Ingrese la opción de visualización del calendario (Week o Month):");
+        
+                    // Solicitar la fecha de inicio
+                    String fechaInicioStr = JOptionPane.showInputDialog("Ingrese la fecha de inicio en formato YYYY-MM-DD:");
+                    LocalDate fechaInicio = LocalDate.parse(fechaInicioStr);
+        
+                    // Llamar al método verCalendarioCitas
+                    control.verCalendarioCitas(opcion, fechaInicio);
+                } catch (DateTimeParseException e) {
+                    JOptionPane.showMessageDialog(null, "La fecha ingresada no es válida. Por favor, intente de nuevo.");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error al visualizar el calendario. Por favor, intente de nuevo.");
+                }
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(29, 29, 29));
         jPanel3.setPreferredSize(new java.awt.Dimension(322, 85));

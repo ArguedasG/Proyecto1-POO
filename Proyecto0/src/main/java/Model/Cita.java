@@ -137,7 +137,8 @@ public class Cita implements Serializable {
 
     @Override
     public String toString() {
-        return "Cita{" + "numero=" + numero + ", fecha=" + fecha + ", estado=" + estado + '}';
+        String estadoStr = estado ? "confirmada" : "no confirmada";
+        return "Cita{" + "numero=" + numero + ", fecha=" + fecha + ", estado=" + estadoStr + '}';
     }
     
 }

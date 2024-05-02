@@ -199,13 +199,10 @@ public class Control implements Serializable {
     }
 
     public int borrarCita(int numero) throws Exception {
-        for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
-            if (cita.getKey().equals(numero)){
-                Cita citaAEliminar = cita.getValue();
-                citas.remove(citaAEliminar);
-                //eliminar del calendario
-                return 1;
-            }
+        if (citas.containsKey(numero)){
+            citas.remove(numero);
+            //eliminar del calendario
+            return 1;
         }
         throw new Exception("El número de cita no coincidee con ninguna cita existente");
     }
