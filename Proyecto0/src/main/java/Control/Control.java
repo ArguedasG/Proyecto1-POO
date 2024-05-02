@@ -188,6 +188,8 @@ public class Control implements Serializable {
                             citaAModificar.setFecha(fecha);
                             citaAModificar.setHora(hora.getHour());
                             citaAModificar.setServicio(tipoElegido);
+                            // Actualizar la cita en el mapa
+                            citas.put(numero, citaAModificar);
                             return 1;
                         }
                     }

@@ -6,9 +6,11 @@ package UI;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -100,6 +102,9 @@ public class CitaMenu extends javax.swing.JPanel {
             
                     // Llamar al método crearCita
                     control.crearCita(fecha, hora, telefonoCliente, tipoElegido);
+        
+                    // Mostrar mensaje de confirmación
+                    JOptionPane.showMessageDialog(null, "La cita ha sido agregada exitosamente.");
                 } catch (DateTimeParseException e) {
                     JOptionPane.showMessageDialog(null, "La fecha o la hora ingresada no es válida. Por favor, intente de nuevo.");
                 } catch (Exception e) {
@@ -244,13 +249,16 @@ public class CitaMenu extends javax.swing.JPanel {
                 try {
                     // Solicitar la opción de visualización del calendario
                     String opcion = JOptionPane.showInputDialog("Ingrese la opción de visualización del calendario (Week o Month):");
-        
+
                     // Solicitar la fecha de inicio
                     String fechaInicioStr = JOptionPane.showInputDialog("Ingrese la fecha de inicio en formato YYYY-MM-DD:");
                     LocalDate fechaInicio = LocalDate.parse(fechaInicioStr);
-        
+
                     // Llamar al método verCalendarioCitas
-                    control.verCalendarioCitas(opcion, fechaInicio);
+                    Map<LocalDateTime, String> resultado = control.verCalendarioCitas(opcion, fechaInicio);
+
+                    // Mostrar el resultado en un JOptionPane
+                    JOptionPane.showMessageDialog(null, resultado.toString());
                 } catch (DateTimeParseException e) {
                     JOptionPane.showMessageDialog(null, "La fecha ingresada no es válida. Por favor, intente de nuevo.");
                 } catch (Exception e) {

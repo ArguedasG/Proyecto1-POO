@@ -60,9 +60,9 @@ public class Cita implements Serializable {
     }
 
     public void setFecha(LocalDate fecha) {
-        this.fecha.withYear(fecha.getYear());
-        this.fecha.withMonth(fecha.getMonthValue());
-        this.fecha.withDayOfMonth(fecha.getDayOfMonth());
+        this.fecha = this.fecha.withYear(fecha.getYear());
+        this.fecha = this.fecha.withMonth(fecha.getMonthValue());
+        this.fecha = this.fecha.withDayOfMonth(fecha.getDayOfMonth());
     }
     
     public boolean isEstado() {
@@ -85,7 +85,7 @@ public class Cita implements Serializable {
     }
     
     public void setHora(int hora){
-        this.fecha.withHour(hora);
+        this.fecha = this.fecha.withHour(hora);
     }
 
     public Servicio getServicio() {
