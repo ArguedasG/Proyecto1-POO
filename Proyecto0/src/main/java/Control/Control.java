@@ -242,46 +242,27 @@ public class Control implements Serializable {
     public void enviarNotificacion()throws Exception{
         ArrayList<Cita> citasANotificar = new ArrayList<Cita>();
         LocalDateTime fecha = LocalDateTime.now();
+        fecha = fecha.plusDays(1);
+        
         int año = fecha.getYear();
         int diaDelAño = fecha.getDayOfYear();
-        if (diaDelAño == 365){
-            fecha.withYear(año++);
-            fecha.withDayOfYear(1);
-            for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
-                if (cita.getValue().getFecha().getYear() == fecha.getYear() && cita.getValue().getFecha().getDayOfYear() == fecha.getDayOfYear()){
-                           citasANotificar.add(cita.getValue());
-                }
-            }
-            if (citasANotificar.isEmpty()){
-                throw new Exception("No hay citas para el dia de mañana");
-            }
-            else{
-                for (Cita citaANotificar : citasANotificar){
-                    try {
-                        citaANotificar.confirmar();
-                    }catch (Exception ex){
-                        
-                    }
-                }
+        
+        for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
+            LocalDateTime fechaCita = cita.getValue().getFecha();
+            
+            if (fechaCita.getYear() == año & fechaCita.getDayOfYear() == diaDelAño){
+                       citasANotificar.add(cita.getValue());
             }
         }
+        if (citasANotificar.isEmpty()){
+            throw new Exception("No hay citas para el dia de mañana");
+        }
         else{
-            fecha.withDayOfYear(diaDelAño++);
-            for (Map.Entry<Integer, Cita> cita : citas.entrySet()){
-                if (cita.getValue().getFecha().getYear() == fecha.getYear() && cita.getValue().getFecha().getDayOfYear() == fecha.getDayOfYear()){
-                           citasANotificar.add(cita.getValue());
-                }
-            }
-            if (citasANotificar.isEmpty()){
-                throw new Exception("No hay citas para el dia de mañana");
-            }
-            else{
-                for (Cita citaANotificar : citasANotificar){
-                    try {
-                        citaANotificar.confirmar();
-                    }catch (Exception ex){
-                        
-                    }
+            for (Cita citaANotificar : citasANotificar){
+                try {
+                    citaANotificar.confirmar();
+                }catch (Exception ex){
+                    System.out.println(ex.getMessage());
                 }
             }
         }
@@ -465,20 +446,8 @@ public class Control implements Serializable {
         }
     }
     
-    public void salvarDatos() throws FileNotFoundException, IOException, ClassNotFoundException {
-        String dir = System.getProperty("user.dir") + "\\src\\main";
-        File carpeta = new File(dir + "\\respaldo");
-        carpeta.mkdir();
-        FileInputStream archivo = new FileInputStream(carpeta.getAbsolutePath() + "\\Data.bin");
-        
-        ObjectInputStream objeto = new ObjectInputStream(archivo);
-        Control objetoControl = (Control) objeto.readObject();
-        objeto.close();
-        
-        Control.instancia = objetoControl;
-    }
-    
-    public void cargarDatos() throws FileNotFoundException, IOException, ClassNotFoundException {
+    public static void salvarDatos() throws FileNotFoundException, IOException, ClassNotFoundException {
+        System.out.println("Salvando datos");
         String dir = System.getProperty("user.dir") + "\\src\\main";
         File carpeta = new File(dir + "\\respaldo");
         FileOutputStream archivo = new FileOutputStream(carpeta.getAbsolutePath() + "\\Data.bin");
@@ -486,6 +455,20 @@ public class Control implements Serializable {
         ObjectOutputStream objeto = new ObjectOutputStream(archivo);
         objeto.writeObject(Control.instancia);
         objeto.close();
+        System.out.println("Se salvaron los datos");
+    }
+    
+    public static void cargarDatos() throws FileNotFoundException, IOException, ClassNotFoundException {
+        System.out.println("Cargando datos");
+        String dir = System.getProperty("user.dir") + "\\src\\main";
+        File carpeta = new File(dir + "\\respaldo");
+        carpeta.mkdir();
+        FileInputStream archivo = new FileInputStream(carpeta.getAbsolutePath() + "\\Data.bin");
+        
+        ObjectInputStream objeto = new ObjectInputStream(archivo);
+        Control.instancia = (Control) objeto.readObject();
+        objeto.close();
+        System.out.println("Se cargaron los datos");
     }
     
 }
